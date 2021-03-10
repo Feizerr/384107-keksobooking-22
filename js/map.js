@@ -74,11 +74,18 @@ const createPopups = (ads) => {
   });
 }
 
+const resetMap = () => {
+  map.panTo(new L.LatLng(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng));
+  mainMarker.setLatLng(L.latLng(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng));
+  setAddressValue(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng);
+}
+
 export {
   map,
   createPopups,
   TOKIO_COORDINATES,
   mainMarker,
   TOKIO_COORDINATES_CENTER,
-  setCoordinateValue
+  setCoordinateValue,
+  resetMap
 };
