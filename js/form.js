@@ -26,7 +26,7 @@ const MAX_ROOMS_COUNT = 100;
 const MAX_ROOMS_VALUE = 0;
 const MIN_ROOMS_VALUE = 1;
 const NOT_FOR_GUESTS_CAPACITY = 3;
-const SEND_FORM_URL = 'https://22.javascript.pages.academy/ke ksobooking';
+const SEND_FORM_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 const form = document.querySelector('.ad-form');
 const formElements = form.querySelectorAll('fieldset');
