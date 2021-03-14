@@ -27,9 +27,15 @@ const LOAD_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
 
 getData (LOAD_DATA_URL,
-  (data) => createPopups(data),
+  (data) => {
+    window.offers = data;
+    console.log(window.offers);
+    createPopups(data);
+  },
   () => showErrorMessage('Не удалось загрузить данные. Обновите страницу'),
 );
+
+
 
 map.
   on('load', () => {
@@ -40,6 +46,5 @@ map.
     lat: TOKIO_COORDINATES.lat,
     lng: TOKIO_COORDINATES.lng,
   }, TOKIO_COORDINATES.scale);
-
 
 setFormSubmit()

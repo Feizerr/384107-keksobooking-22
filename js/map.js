@@ -7,6 +7,10 @@ import {
   createAdPopup
 } from './ads.js';
 
+import {
+  filter
+} from './filter.js'
+
 
 const TOKIO_COORDINATES = {
   lat: 35.68950,
@@ -60,6 +64,28 @@ const createPopups = (ads) => {
     iconSize: [50, 50],
     iconAnchor: [25, 25],
   })
+
+console.log(window.offers)
+
+const housingType = filter.querySelector('#housing-type');
+ const housingTypeValue = housingType.value;
+
+
+
+ housingType.addEventListener('change', (evt) => {
+  let filteredArray = [];
+
+  if (evt.target.value === 'any') {
+    filteredArray = window.offers
+  } else {
+
+    filteredArray = window.offers.filter(offer => offer.offer.type === evt.target.value)
+    }
+    console.log(filteredArray);
+ })
+
+
+
 
   ads.forEach((element) => {
     const marker = L.marker({

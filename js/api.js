@@ -33,5 +33,4 @@ const getData = (url, onSuccess, onError) => {
     });
 };
 
-
 export {sendData, getData};
