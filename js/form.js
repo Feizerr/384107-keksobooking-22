@@ -143,9 +143,6 @@ const formReset = () => {
   setRoomCapacity();
 }
 
-
-
-
 const onFormSubmitSuccess = () => {
   formReset();
   showPopup(templateSuccessPopup);
@@ -155,7 +152,6 @@ const onFormSubmitError = () => {
   showPopup(templateErrorPopup);
 };
 
-
 const setFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -164,48 +160,6 @@ const setFormSubmit = () => {
     sendData (formData, SEND_FORM_URL, onFormSubmitSuccess, onFormSubmitError);
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const setFormSubmit = () => {
-//   form.addEventListener('submit', (evt) => {
-//     evt.preventDefault();
-//     const formData = new FormData(evt.target);
-
-//     fetch (
-//       'https://22.javascript.pages.academy/keksobookin g',
-//       {
-//         method: 'POST',
-//         body: formData,
-//       },
-//     )
-//       .then((response) => {
-//         if (response.ok) {
-//           formReset();
-//           showPopup(templateSuccessPopup);
-
-//         } else {
-//           showPopup(templateErrorPopup);
-//         }
-
-//       })
-//       .catch(() => showPopup(templateErrorPopup));
-//   });
-// }
-
-
 
 buttonReset.addEventListener('click', (evt) => {
   evt.preventDefault();

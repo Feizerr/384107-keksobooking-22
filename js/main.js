@@ -1,5 +1,6 @@
 import {} from './popup.js';
 import './ads.js';
+
 import {
   map,
   createPopups,
@@ -11,10 +12,12 @@ import {
   enableFormElements,
   setFormSubmit
 } from './form.js';
+
 import {
   filter,
   filterElements
 } from './filter.js'
+
 import {
   showErrorMessage
 } from './util.js'
@@ -25,17 +28,13 @@ import {
 
 const LOAD_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
-
 getData (LOAD_DATA_URL,
   (data) => {
     window.offers = data;
-    console.log(window.offers);
     createPopups(data);
   },
   () => showErrorMessage('Не удалось загрузить данные. Обновите страницу'),
 );
-
-
 
 map.
   on('load', () => {

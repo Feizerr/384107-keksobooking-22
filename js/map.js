@@ -11,7 +11,6 @@ import {
   filter
 } from './filter.js'
 
-
 const TOKIO_COORDINATES = {
   lat: 35.68950,
   lng: 139.69171,
@@ -23,6 +22,7 @@ const TOKIO_COORDINATES_CENTER = {
   lng: 139.76526,
 }
 
+const MAX_COUNT_ADS = 10;
 const map = L.map('map-canvas');
 
 L.tileLayer(
@@ -54,40 +54,23 @@ const setCoordinateValue = () => {
     const coordinates = evt.target.getLatLng();
     setAddressValue(coordinates.lat, coordinates.lng)
   });
-}
+};
 
 setCoordinateValue()
 
-const createPopups = (ads) => {
-  const icon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [50, 50],
-    iconAnchor: [25, 25],
-  })
-
-console.log(window.offers)
-
 const housingType = filter.querySelector('#housing-type');
- const housingTypeValue = housingType.value;
 
+const icon = L.icon({
+  iconUrl: 'img/pin.svg',
+  iconSize: [50, 50],
+  iconAnchor: [25, 25],
+});
 
+const markersArray = [];
+const createPopups = (ads) => {
+  const slicedAds = ads.slice(0, MAX_COUNT_ADS);
 
- housingType.addEventListener('change', (evt) => {
-  let filteredArray = [];
-
-  if (evt.target.value === 'any') {
-    filteredArray = window.offers
-  } else {
-
-    filteredArray = window.offers.filter(offer => offer.offer.type === evt.target.value)
-    }
-    console.log(filteredArray);
- })
-
-
-
-
-  ads.forEach((element) => {
+  slicedAds.forEach((element) => {
     const marker = L.marker({
       lat: element.location.lat,
       lng: element.location.lng,
@@ -97,14 +80,30 @@ const housingType = filter.querySelector('#housing-type');
     marker
       .addTo(map)
       .bindPopup(createAdPopup(element));
+    markersArray.push(marker);
   });
-}
+};
+
+housingType.addEventListener('change', (evt) => {
+  let filteredArray = [];
+
+  if (evt.target.value === 'any') {
+    filteredArray = window.offers
+  } else {
+    filteredArray = window.offers.filter(offer => offer.offer.type === evt.target.value)
+  }
+  markersArray.forEach((marker) => {
+    map.removeLayer(marker);
+  })
+  return createPopups(filteredArray)
+
+});
 
 const resetMap = () => {
   map.panTo(new L.LatLng(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng));
   mainMarker.setLatLng(L.latLng(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng));
   setAddressValue(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng);
-}
+};
 
 export {
   map,
