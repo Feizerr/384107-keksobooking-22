@@ -19,6 +19,7 @@ const MIN_PRICES = {
   house: 5000,
   palace: 10000,
 };
+const PALACE_OPTION_VALUE = '0';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -71,7 +72,8 @@ const setRoomCapacity = () => {
   if (roomsCount === MAX_ROOMS_COUNT) {
     capacity.value = MAX_ROOMS_VALUE;
     capacities.forEach((element) => {
-      if (element !== 0) {
+      console.log(element);
+      if (element.value !== PALACE_OPTION_VALUE) {
         element.disabled = true;
       }
     });
