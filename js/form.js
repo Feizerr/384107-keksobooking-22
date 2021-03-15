@@ -10,7 +10,16 @@ import {
   showPopup,
   templateErrorPopup,
   templateSuccessPopup
-} from './popup.js'
+} from './popup.js';
+
+import {
+  disableFormElements,
+  enableFormElements
+} from './util.js'
+
+import {
+  filterReset
+} from './filter.js'
 
 const ADDRESS_FLOAT_LENGTH = 5;
 const MIN_PRICES = {
@@ -73,7 +82,7 @@ const setRoomCapacity = () => {
     capacity.value = MAX_ROOMS_VALUE;
     capacities.forEach((element) => {
       console.log(element);
-      if (element.value !== PALACE_OPTION_VALUE) {
+      if (element.value !== PALACE_OPTION_VALUE ) {
         element.disabled = true;
       }
     });
@@ -122,31 +131,27 @@ const setAddressValue = (lat, lng) => {
   inputAddress.value = lat.toFixed(ADDRESS_FLOAT_LENGTH) + ', ' + lng.toFixed(ADDRESS_FLOAT_LENGTH);
 };
 
-const disableFormElements = (block, elements) => {
-  block.classList.add('ad-form--disabled');
-
-  elements.forEach((element) => {
-    element.disabled = true;
-  });
+const disableForm = () => {
+  form.classList.add('ad-form--disabled');
+  disableFormElements(formElements);
 };
 
-const enableFormElements = (block, elements) => {
-  block.classList.remove('ad-form--disabled');
-
-  elements.forEach((element) => {
-    element.disabled = false;
-  });
+const enableForm = () => {
+  form.classList.remove('ad-form--disabled');
+  enableFormElements(formElements);
 };
 
 const formReset = () => {
   form.reset();
   setMinPrices();
-  resetMap()
+  resetMap();
   setRoomCapacity();
-}
+};
 
 const onFormSubmitSuccess = () => {
   formReset();
+  filterReset();
+
   showPopup(templateSuccessPopup);
 };
 
@@ -161,23 +166,24 @@ const setFormSubmit = () => {
 
     sendData (formData, SEND_FORM_URL, onFormSubmitSuccess, onFormSubmitError);
   });
-}
+};
 
 buttonReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   formReset();
-})
+  filterReset();
+
+});
 
 setRoomCapacity();
 setMinPrices();
-disableFormElements(form, formElements);
 
 export {
   form,
   formElements,
   setAddressValue,
-  disableFormElements,
-  enableFormElements,
+  enableForm,
   setFormSubmit,
-  buttonSubmit
+  buttonSubmit,
+  disableForm
 }

@@ -85,6 +85,18 @@ const showErrorMessage = (message) => {
 };
 
 
+const disableFormElements = (elements) => {
+  elements.forEach((element) => {
+    element.disabled = true;
+  });
+};
+
+const enableFormElements = (elements) => {
+  elements.forEach((element) => {
+    element.disabled = false;
+  });
+};
+
 export {
   getRandomNumber,
   getRandomFloatNumber,
@@ -93,5 +105,7 @@ export {
   mixArray,
   getRamdomObjectValue,
   numWord,
-  showErrorMessage
+  showErrorMessage,
+  disableFormElements,
+  enableFormElements
 };

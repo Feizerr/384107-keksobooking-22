@@ -9,13 +9,16 @@ import {
 import {
   form,
   formElements,
-  enableFormElements,
+  enableForm,
+  disableForm,
   setFormSubmit
 } from './form.js';
 
 import {
   filter,
-  filterElements
+  filterElements,
+  disableFilter,
+  enableFilter
 } from './filter.js'
 
 import {
@@ -25,6 +28,10 @@ import {
 import {
   getData
 } from './api.js';
+
+
+disableFilter();
+disableForm();
 
 const LOAD_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
@@ -38,8 +45,8 @@ getData (LOAD_DATA_URL,
 
 map.
   on('load', () => {
-    enableFormElements(form, formElements);
-    enableFormElements(filter, filterElements);
+    enableForm();
+    enableFilter();
   })
   .setView({
     lat: TOKIO_COORDINATES.lat,

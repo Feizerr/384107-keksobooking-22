@@ -58,7 +58,7 @@ const setCoordinateValue = () => {
 
 setCoordinateValue()
 
-const housingType = filter.querySelector('#housing-type');
+
 
 const icon = L.icon({
   iconUrl: 'img/pin.svg',
@@ -84,20 +84,12 @@ const createPopups = (ads) => {
   });
 };
 
-housingType.addEventListener('change', (evt) => {
-  let filteredArray = [];
-
-  if (evt.target.value === 'any') {
-    filteredArray = window.offers
-  } else {
-    filteredArray = window.offers.filter(offer => offer.offer.type === evt.target.value)
-  }
+const updateMarkers = (offers) => {
   markersArray.forEach((marker) => {
     map.removeLayer(marker);
   })
-  return createPopups(filteredArray)
-
-});
+  createPopups(offers);
+}
 
 const resetMap = () => {
   map.panTo(new L.LatLng(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng));
@@ -112,5 +104,6 @@ export {
   mainMarker,
   TOKIO_COORDINATES_CENTER,
   setCoordinateValue,
-  resetMap
+  resetMap,
+  updateMarkers
 };
