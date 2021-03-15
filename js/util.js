@@ -9,7 +9,7 @@ const getRandomNumber = (min, max) => {
     throw Error('Ошибка. Пожалуйста, введите другое значение. Минимальное число должно быть меньше максимального');
   }
   return Math.trunc(Math.random() * (max - min + 1) + min);
-}
+};
 
 const getRandomFloatNumber = (min, max, floatLength) => {
   if (min < 0 || max < 0) {
@@ -20,11 +20,11 @@ const getRandomFloatNumber = (min, max, floatLength) => {
     throw Error('Ошибка. Пожалуйста, введите другое значение. Минимальное число должно быть меньше максимального');
   }
   return Number((Math.random() * (max - min) + min).toFixed(floatLength));
-}
+};
 
 const chooseRandomElement = (items) => {
   return items[Math.floor(Math.random() * items.length)];
-}
+};
 
 const createRandomArray = (array) => {
   const quantityElements = getRandomNumber(0, array.length - 1);
@@ -35,7 +35,7 @@ const createRandomArray = (array) => {
     newArray.push(getRandomArrayElement);
   }
   return newArray;
-}
+};
 
 const mixArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -45,14 +45,14 @@ const mixArray = (array) => {
     array[j] = temp;
   }
   return array;
-}
+};
 
 const getRamdomObjectValue = (object) => {
   const arrayObjectKeys = Object.keys(object);
   const randomKey = chooseRandomElement(arrayObjectKeys);
   const keyValue = object[randomKey];
   return keyValue
-}
+};
 
 const numWord = (value, words) => {
   value = Math.abs(value) % 100;
@@ -61,9 +61,9 @@ const numWord = (value, words) => {
   if (num > 1 && num < 5) return words[1];
   if (num == 1) return words[0];
   return words[2];
-}
+};
 
-const showErrorPopup = (message) => {
+const showErrorMessage = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
   alertContainer.style.position = 'absolute';
@@ -82,7 +82,8 @@ const showErrorPopup = (message) => {
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
-}
+};
+
 
 export {
   getRandomNumber,
@@ -92,5 +93,5 @@ export {
   mixArray,
   getRamdomObjectValue,
   numWord,
-  showErrorPopup
+  showErrorMessage
 };

@@ -1,5 +1,6 @@
 import {} from './popup.js';
 import './ads.js';
+
 import {
   map,
   createPopups,
@@ -11,26 +12,29 @@ import {
   enableFormElements,
   setFormSubmit
 } from './form.js';
+
 import {
   filter,
   filterElements
 } from './filter.js'
+
 import {
-  showErrorPopup
+  showErrorMessage
 } from './util.js'
 
-fetch('https://22.javascript.pages.academy/keksobooking/data')
-  .then((response) => {
-    if(response.ok) {
-      return response.json();
-    } else {
-      showErrorPopup('Не удалось загрузить данные. Обновите страницу');
-    }
-  })
-  .then((advertisments) => {
-    createPopups(advertisments);
-  })
-  .catch(() => showErrorPopup('Не удалось загрузить данные. Обновите страницу'));
+import {
+  getData
+} from './api.js';
+
+const LOAD_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
+
+getData (LOAD_DATA_URL,
+  (data) => {
+    window.offers = data;
+    createPopups(data);
+  },
+  () => showErrorMessage('Не удалось загрузить данные. Обновите страницу'),
+);
 
 map.
   on('load', () => {
@@ -41,6 +45,5 @@ map.
     lat: TOKIO_COORDINATES.lat,
     lng: TOKIO_COORDINATES.lng,
   }, TOKIO_COORDINATES.scale);
-
 
 setFormSubmit()

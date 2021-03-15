@@ -1,18 +1,16 @@
-/* global L:readonly */
-
 import {
-  mainMarker,
-  map,
-  TOKIO_COORDINATES_CENTER
+  resetMap
 } from './map.js';
 
 import {
+  sendData
+} from './api.js';
+
+import {
   showPopup,
-  successPopup,
-  errorPopup
+  templateErrorPopup,
+  templateSuccessPopup
 } from './popup.js'
-
-
 
 const ADDRESS_FLOAT_LENGTH = 5;
 const MIN_PRICES = {
@@ -21,12 +19,14 @@ const MIN_PRICES = {
   house: 5000,
   palace: 10000,
 };
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_ROOMS_COUNT = 100;
 const MAX_ROOMS_VALUE = 0;
 const MIN_ROOMS_VALUE = 1;
 const NOT_FOR_GUESTS_CAPACITY = 3;
+const SEND_FORM_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 const form = document.querySelector('.ad-form');
 const formElements = form.querySelectorAll('fieldset');
@@ -64,24 +64,25 @@ housingPrice.addEventListener('input', () => {
 
 const setRoomCapacity = () => {
   const roomsCount = Number(roomNumber.value);
-  for (let i = 0; i < capacities.length; i++) {
-    capacities[i].disabled = false;
-  }
+  capacity.value = MIN_ROOMS_VALUE;
+  capacities.forEach((element) => {
+    element.disabled = false;});
 
   if (roomsCount === MAX_ROOMS_COUNT) {
-    for (let i = 0; i < capacities.length -1; i++) {
-      capacities[i].disabled = true;
-    }
     capacity.value = MAX_ROOMS_VALUE;
+    capacities.forEach((element) => {
+      if (element !== 0) {
+        element.disabled = true;
+      }
+    });
   } else {
-    capacity.value = MIN_ROOMS_VALUE;
     capacities[NOT_FOR_GUESTS_CAPACITY].disabled = true;
 
-    for (let i = 0; i < capacities.length; i++) {
-      if (capacities[i].value > roomNumber.value) {
-        capacities[i].disabled = true;
+    capacities.forEach((element) => {
+      if (element.value > roomNumber.value) {
+        element.disabled = true;
       }
-    }
+    });
   }
 }
 
@@ -138,33 +139,25 @@ const enableFormElements = (block, elements) => {
 const formReset = () => {
   form.reset();
   setMinPrices();
-  map.panTo(new L.LatLng(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng));
-  mainMarker.setLatLng(L.latLng(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng));
-  setAddressValue(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng);
+  resetMap()
+  setRoomCapacity();
 }
+
+const onFormSubmitSuccess = () => {
+  formReset();
+  showPopup(templateSuccessPopup);
+};
+
+const onFormSubmitError = () => {
+  showPopup(templateErrorPopup);
+};
 
 const setFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
 
-    fetch (
-      'https://22.javascript.pages.academy/keksobooking',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    )
-      .then((response) => {
-        if (response.ok) {
-          formReset();
-          showPopup(successPopup);
-        } else {
-          showPopup(errorPopup);
-        }
-
-      })
-      .catch(() => showPopup(errorPopup));
+    sendData (formData, SEND_FORM_URL, onFormSubmitSuccess, onFormSubmitError);
   });
 }
 
@@ -176,9 +169,6 @@ buttonReset.addEventListener('click', (evt) => {
 setRoomCapacity();
 setMinPrices();
 disableFormElements(form, formElements);
-
-
-
 
 export {
   form,
