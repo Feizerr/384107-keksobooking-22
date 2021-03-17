@@ -1,5 +1,3 @@
-
-
 import {
   updateMarkers
 } from './map.js';
@@ -12,10 +10,6 @@ import {
 const ANY_FILTER_VALUE = 'any';
 const LOW_PRICE = 10000;
 const HIGH_PRICE = 50000;
-const MIDDLE_PRICE = {
-  min: 10000,
-  max: 50000
-}
 
 
 const filter = document.querySelector('.map__filters');
@@ -42,88 +36,109 @@ const enableFilter = () => {
   enableFormElements(filterElements);
 };
 
-// //Фильтрация по типу дома
 
-housingType.addEventListener('change', (evt) => {
-  const selectedHouse = evt.target.value;
+
+//Фильтр
+const filterAds = (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice) => {
   const filteredArray =
     window.offers
       .filter(offer => {
         const typeHouseCondition = selectedHouse === ANY_FILTER_VALUE || offer.offer.type === selectedHouse;
-          return typeHouseCondition;
+        const housingRoomsCondition = selectedQuantityRooms === ANY_FILTER_VALUE || offer.offer.rooms === Number(selectedQuantityRooms);
+        const housingGuestsCondition = selectedQuantityGuests === ANY_FILTER_VALUE || offer.offer.guests === Number(selectedQuantityGuests);
+        const housingPriceCondition = (selectedQuantityPrice === 'middle') ? selectedQuantityPrice === ANY_FILTER_VALUE || (offer.offer.price >= LOW_PRICE && offer.offer.price < HIGH_PRICE) :
+        (selectedQuantityPrice === 'low') ? selectedQuantityPrice === ANY_FILTER_VALUE || offer.offer.price < LOW_PRICE :
+        selectedQuantityPrice === ANY_FILTER_VALUE || offer.offer.price >= HIGH_PRICE;
+
+        return housingRoomsCondition && typeHouseCondition && housingGuestsCondition && housingPriceCondition;
       });
-
   updateMarkers(filteredArray);
-});
 
-const changeOfHousingPrice = (ad, inputValue) => {
-  const priceOfHouse = ad.offer.price;
-
-  if ( inputValue === 'low') {
-    return ad.offer.price <= LOW_PRICE;
-  } else if (inputValue === 'middle') {
-    return ad.offer.price >= MIDDLE_PRICE.min && ad.offer.price <= MIDDLE_PRICE.max;
-  } else if (inputValue === 'high') {
-    return ad.offer.price >= HIGH_PRICE;
-  } else if (inputValue === ANY_FILTER_VALUE) {
-    return true
-  }
 }
 
-housingPrice.addEventListener('change', () => {
-  const priceValue = housingPrice.value
+housingType.addEventListener('change', (evt) => {
+  const selectedHouse = evt.target.value;
+  const selectedQuantityRooms = housingRooms.value;
+  const selectedQuantityGuests = housingGuests.value;
+  const selectedQuantityPrice = housingPrice.value;
+  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+});
 
-  //Создается переменная, которая содержит массив, полученный в результате применения фильтра к исходному (определенному ранее массиву)
-
-  const filteredArray =
-    window.offers
-      .filter(ad => {
-        if(changeOfHousingPrice(ad, priceValue)) {
-          return true
-        } else {
-          return false
-        }
-      })
-
-    updateMarkers(filteredArray);
-})
-
-//Фильтрация по комнатам
 housingRooms.addEventListener('change', (evt) => {
   const selectedQuantityRooms = evt.target.value;
-  const filteredArray =
-    window.offers
-      .filter(offer => {
-        const housingRoomsCondition = selectedQuantityRooms === ANY_FILTER_VALUE || offer.offer.rooms === Number(selectedQuantityRooms);
-        return housingRoomsCondition;
-      });
-  updateMarkers(filteredArray);
-
+  const selectedHouse = housingType.value;
+  const selectedQuantityGuests = housingGuests.value;
+  const selectedQuantityPrice = housingPrice.value;
+  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
 });
 
-//Фильтрация по количеству гостей
 housingGuests.addEventListener('change', (evt) => {
   const selectedQuantityGuests = evt.target.value;
-  const filteredArray =
-    window.offers
-      .filter(offer => {
-        const housingGuestsCondition = selectedQuantityGuests === ANY_FILTER_VALUE || offer.offer.guests === Number(selectedQuantityGuests);
-        return housingGuestsCondition;
-      });
-  updateMarkers(filteredArray);
+  const selectedHouse = housingType.value;
+  const selectedQuantityRooms = housingRooms.value;
+  const selectedQuantityPrice = housingPrice.value;
+  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
 });
 
-// housingPrice.addEventListener('change', (evt) => {
-//   const selectedQuantityPrice = evt.target.value;
+
+
+housingPrice.addEventListener('change', (evt) => {
+  const selectedQuantityPrice = evt.target.value;
+  const selectedHouse = housingType.value;
+  const selectedQuantityRooms = housingRooms.value;
+  const selectedQuantityGuests = housingGuests.value;
+  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+})
+
+
+
+
+//Филььтрация по типу преимуществ
+
+
+// housingFeatures.addEventListener('change', (evt) => {
+//   const selectedFeature = evt.target.value;
 //   const filteredArray =
 //     window.offers
 //       .filter(offer => {
-//         const housingPriceCondition = selectedQuantityPrice === ANY_FILTER_VALUE || (offer.offer.price >= 10000 && offer.offer.price < 50000) || (offer.offer.price < 10000) ||
-//         return housingGuestsCondition;
+//         const typeFeaturesCondition = selectedFeature === ANY_FILTER_VALUE || offer.offer.features === selectedFeature;
+//           return typeFeaturesCondition;
 //       });
-//   updateMarkers(filteredArray);
+
+//   updateMarkers(typeFeaturesCondition);
 // });
 
+//Фильтрация по стоимости
+
+// const changeOfHousingPrice = (ad, inputValue) => {
+//   const priceOfHouse = ad.offer.price;
+
+//   if ( inputValue === 'low') {
+//     return ad.offer.price <= LOW_PRICE;
+//   } else if (inputValue === 'middle') {
+//     return ad.offer.price >= MIDDLE_PRICE.min && ad.offer.price <= MIDDLE_PRICE.max;
+//   } else if (inputValue === 'high') {
+//     return ad.offer.price >= HIGH_PRICE;
+//   } else if (inputValue === ANY_FILTER_VALUE) {
+//     return true
+//   }
+// }
+
+// housingPrice.addEventListener('change', () => {
+//   const priceValue = housingPrice.value
+
+//   const filteredArray =
+//     window.offers
+//       .filter(ad => {
+//         if(changeOfHousingPrice(ad, priceValue)) {
+//           return true
+//         } else {
+//           return false
+//         }
+//       })
+
+//     updateMarkers(filteredArray);
+// })
 
 
 
@@ -165,9 +180,9 @@ housingGuests.addEventListener('change', (evt) => {
 //   const filteredArray =
 //     window.offers
 //       .filter(offer => {
-//         const housingPriceCondition = (evt.target.value < 'middle') ? selectedQuantityPrice === ANY_FILTER_VALUE || (offer.offer.price >= 10000 && offer.offer.price < 50000) :
-//         (evt.target.value === 'low') ? selectedQuantityPrice === ANY_FILTER_VALUE || offer.offer.price < 10000 :
-//         selectedQuantityPrice === ANY_FILTER_VALUE || offer.offer.price >50000;
+//         const housingPriceCondition = (selectedQuantityPrice === 'middle') ? selectedQuantityPrice === ANY_FILTER_VALUE || (offer.offer.price >= 10000 && offer.offer.price < 50000) :
+//         (selectedQuantityPrice === 'low') ? selectedQuantityPrice === ANY_FILTER_VALUE || offer.offer.price < 10000 :
+//         selectedQuantityPrice === ANY_FILTER_VALUE || offer.offer.price >= 50000;
 //         return housingPriceCondition;
 //         });
 //       updateMarkers(filteredArray);
@@ -175,7 +190,7 @@ housingGuests.addEventListener('change', (evt) => {
 
 
 
-
+//
 
 
 //Очистка фильтра
