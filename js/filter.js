@@ -16,12 +16,17 @@ const RERENDER_DELAY = 500;
 
 const filter = document.querySelector('.map__filters');
 const filterElements = filter.querySelectorAll('select, fieldset');
-
 const housingType = filter.querySelector('#housing-type');
 const housingPrice = filter.querySelector('#housing-price');
 const housingRooms = filter.querySelector('#housing-rooms');
 const housingGuests = filter.querySelector('#housing-guests');
 const housingFeatures = filter.querySelector('#housing-features');
+
+let selectedHouse = housingType.value;
+let selectedQuantityRooms = housingRooms.value;
+let selectedQuantityGuests = housingGuests.value;
+let selectedQuantityPrice = housingPrice.value;
+
 
 //Блокировка фильтра
 
@@ -37,86 +42,109 @@ const enableFilter = () => {
   enableFormElements(filterElements);
 };
 
+const filterByPrice = (ad, condition) => {
+  console.log(ad.offer.price);
+  console.log()
+
+  return condition === ANY_FILTER_VALUE ||
+          condition === 'middle'&& ad.offer.price >= LOW_PRICE && ad.offer.price < HIGH_PRICE ||
+          condition === 'low' && ad.offer.price < LOW_PRICE ||
+          condition === 'high' && ad.offer.price >= HIGH_PRICE;
+};
+
 //Фильтр
-const filterAds = (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice) => {
+const filterAds = () => {
   const filteredArray =
     window.offers
       .filter(offer => {
-        const typeHouseCondition = selectedHouse === ANY_FILTER_VALUE || offer.offer.type === selectedHouse;
-        const housingRoomsCondition = selectedQuantityRooms === ANY_FILTER_VALUE || offer.offer.rooms === Number(selectedQuantityRooms);
-        const housingGuestsCondition = selectedQuantityGuests === ANY_FILTER_VALUE || offer.offer.guests === Number(selectedQuantityGuests);
-        const housingPriceCondition = (selectedQuantityPrice === 'middle') ? selectedQuantityPrice === ANY_FILTER_VALUE || (offer.offer.price >= LOW_PRICE && offer.offer.price < HIGH_PRICE) :
-        (selectedQuantityPrice === 'low') ? selectedQuantityPrice === ANY_FILTER_VALUE || offer.offer.price < LOW_PRICE :
-        selectedQuantityPrice === ANY_FILTER_VALUE || offer.offer.price >= HIGH_PRICE;
+        const houseCondition = selectedHouse === ANY_FILTER_VALUE || offer.offer.type === selectedHouse;
+        const roomsCondition = selectedQuantityRooms === ANY_FILTER_VALUE || offer.offer.rooms === Number(selectedQuantityRooms);
+        const guestsCondition = selectedQuantityGuests === ANY_FILTER_VALUE || offer.offer.guests === Number(selectedQuantityGuests);
+        const priceCondition = filterByPrice(offer, selectedQuantityPrice);
 
-        return housingRoomsCondition && typeHouseCondition && housingGuestsCondition && housingPriceCondition;
+        return roomsCondition && houseCondition && guestsCondition && priceCondition;
       });
   updateMarkers(filteredArray);
-
 }
-
-//Попыталась оптимизировать функцию, но она не работает
-// const changeFilter = () => {
-//   const selectedQuantityRooms = housingRooms.value;
-//   const selectedQuantityGuests = housingGuests.value;
-//   const selectedQuantityPrice = housingPrice.value;
-//   const selectedHouse = housingType.value;
-
-//  housingType.addEventListener('change', (evt) => {
-//   const selectedHouse = evt.target.value;
-//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
-// });
-
-// housingRooms.addEventListener('change', (evt) => {
-//   const selectedQuantityRooms = evt.target.value;
-//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
-// });
-
-// housingGuests.addEventListener('change', (evt) => {
-//   const selectedQuantityGuests = evt.target.value;
-//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
-// });
-
-// housingPrice.addEventListener('change', (evt) => {
-//   const selectedQuantityPrice = evt.target.value;
-//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
-// });
-// };
-
-// changeFilter()
 
 
 housingType.addEventListener('change', (evt) => {
-  const selectedHouse = evt.target.value;
-  const selectedQuantityRooms = housingRooms.value;
-  const selectedQuantityGuests = housingGuests.value;
-  const selectedQuantityPrice = housingPrice.value;
+  selectedHouse = evt.target.value;
   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
 });
 
 housingRooms.addEventListener('change', (evt) => {
-  const selectedQuantityRooms = evt.target.value;
-  const selectedHouse = housingType.value;
-  const selectedQuantityGuests = housingGuests.value;
-  const selectedQuantityPrice = housingPrice.value;
+  selectedQuantityRooms = evt.target.value;
   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
 });
 
 housingGuests.addEventListener('change', (evt) => {
-  const selectedQuantityGuests = evt.target.value;
-  const selectedHouse = housingType.value;
-  const selectedQuantityRooms = housingRooms.value;
-  const selectedQuantityPrice = housingPrice.value;
+  selectedQuantityGuests = evt.target.value;
+
   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
 });
 
 housingPrice.addEventListener('change', (evt) => {
-  const selectedQuantityPrice = evt.target.value;
-  const selectedHouse = housingType.value;
-  const selectedQuantityRooms = housingRooms.value;
-  const selectedQuantityGuests = housingGuests.value;
+  selectedQuantityPrice = evt.target.value;
   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// housingType.addEventListener('change', (evt) => {
+//   const selectedHouse = evt.target.value;
+//   const selectedQuantityRooms = housingRooms.value;
+//   const selectedQuantityGuests = housingGuests.value;
+//   const selectedQuantityPrice = housingPrice.value;
+//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+// });
+
+// housingRooms.addEventListener('change', (evt) => {
+//   const selectedQuantityRooms = evt.target.value;
+//   const selectedHouse = housingType.value;
+//   const selectedQuantityGuests = housingGuests.value;
+//   const selectedQuantityPrice = housingPrice.value;
+//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+// });
+
+// housingGuests.addEventListener('change', (evt) => {
+//   const selectedQuantityGuests = evt.target.value;
+//   const selectedHouse = housingType.value;
+//   const selectedQuantityRooms = housingRooms.value;
+//   const selectedQuantityPrice = housingPrice.value;
+//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+// });
+
+// housingPrice.addEventListener('change', (evt) => {
+//   const selectedQuantityPrice = evt.target.value;
+//   const selectedHouse = housingType.value;
+//   const selectedQuantityRooms = housingRooms.value;
+//   const selectedQuantityGuests = housingGuests.value;
+//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+// })
 
 //-----------------------------------------------------------------------------------------------
 //Фильтрация преимуществ
