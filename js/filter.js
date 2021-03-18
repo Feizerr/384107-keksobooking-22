@@ -1,6 +1,7 @@
 /* global _:readonly */
 import {
-  updateMarkers
+  updateMarkers,
+  resetMap
 } from './map.js';
 
 import {
@@ -93,6 +94,7 @@ housingPrice.addEventListener('change', (_.debounce((evt) => {
 
 const filterReset = () => {
   filter.reset();
+  updateMarkers(window.offers)
 };
 
 export {
