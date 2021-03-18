@@ -84,7 +84,6 @@ const showErrorMessage = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-
 const disableFormElements = (elements) => {
   elements.forEach((element) => {
     element.disabled = true;

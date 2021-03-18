@@ -1,7 +1,6 @@
 /* global _:readonly */
 import {
-  updateMarkers,
-  resetMap
+  updateMarkers
 } from './map.js';
 
 import {
@@ -11,7 +10,7 @@ import {
 
 const ANY_FILTER_VALUE = 'any';
 const LOW_PRICE = 'low';
-const MIDDLE_PRICE = 'middle'
+const MIDDLE_PRICE = 'middle';
 const HIGH_PRICE = 'high';
 const RERENDER_DELAY = 500;
 
@@ -45,9 +44,9 @@ const enableFilter = () => {
 
 const filterByPrice = (ad, condition) => {
   return condition === ANY_FILTER_VALUE ||
-          condition === MIDDLE_PRICE && ad.offer.price >= PRICE.low && ad.offer.price < PRICE.high ||
-          condition === LOW_PRICE && ad.offer.price < PRICE.low ||
-          condition === HIGH_PRICE && ad.offer.price >= PRICE.high;
+    condition === MIDDLE_PRICE && ad.offer.price >= PRICE.low && ad.offer.price < PRICE.high ||
+    condition === LOW_PRICE && ad.offer.price < PRICE.low ||
+    condition === HIGH_PRICE && ad.offer.price >= PRICE.high;
 };
 
 const filterAds = () => {
@@ -68,33 +67,33 @@ const filterAds = () => {
 
 housingType.addEventListener('change', (_.debounce((evt) => {
   selectedHouse = evt.target.value;
-  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+  filterAds(selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
 }, RERENDER_DELAY)));
 
 housingRooms.addEventListener('change', (_.debounce((evt) => {
   selectedQuantityRooms = evt.target.value;
-  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+  filterAds(selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
 }, RERENDER_DELAY)));
 
 housingGuests.addEventListener('change', (_.debounce((evt) => {
   selectedQuantityGuests = evt.target.value;
 
-  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+  filterAds(selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
 }, RERENDER_DELAY)));
 
 
-housingFeatures.addEventListener('change', (_.debounce((evt) => {
-  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
+housingFeatures.addEventListener('change', (_.debounce(() => {
+  filterAds(selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
 }, RERENDER_DELAY)));
 
 housingPrice.addEventListener('change', (_.debounce((evt) => {
   selectedQuantityPrice = evt.target.value;
-  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
+  filterAds(selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
 }, RERENDER_DELAY)));
 
 const filterReset = () => {
   filter.reset();
-  updateMarkers(window.offers)
+  updateMarkers(window.offers);
 };
 
 export {

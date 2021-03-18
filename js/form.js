@@ -15,21 +15,21 @@ import {
 import {
   disableFormElements,
   enableFormElements
-} from './util.js'
+} from './util.js';
 
 import {
   filterReset
-} from './filter.js'
+} from './filter.js';
 
-const ADDRESS_FLOAT_LENGTH = 5;
 const MIN_PRICES = {
   bungalow: 0,
   flat: 1000,
   house: 5000,
   palace: 10000,
 };
-const PALACE_OPTION_VALUE = '0';
 
+const ADDRESS_FLOAT_LENGTH = 5;
+const PALACE_OPTION_VALUE = '0';
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_ROOMS_COUNT = 100;
@@ -76,13 +76,13 @@ const setRoomCapacity = () => {
   const roomsCount = Number(roomNumber.value);
   capacity.value = MIN_ROOMS_VALUE;
   capacities.forEach((element) => {
-    element.disabled = false;});
+    element.disabled = false;
+  });
 
   if (roomsCount === MAX_ROOMS_COUNT) {
     capacity.value = MAX_ROOMS_VALUE;
     capacities.forEach((element) => {
-      console.log(element);
-      if (element.value !== PALACE_OPTION_VALUE ) {
+      if (element.value !== PALACE_OPTION_VALUE) {
         element.disabled = true;
       }
     });
@@ -91,11 +91,11 @@ const setRoomCapacity = () => {
 
     capacities.forEach((element) => {
       if (element.value > roomNumber.value) {
-        element.disabled = true;
+        element.disabled = true
       }
     });
   }
-}
+};
 
 const onRoomNumberChange = () => {
   setRoomCapacity();
@@ -164,7 +164,7 @@ const setFormSubmit = () => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
 
-    sendData (formData, SEND_FORM_URL, onFormSubmitSuccess, onFormSubmitError);
+    sendData(formData, SEND_FORM_URL, onFormSubmitSuccess, onFormSubmitError);
   });
 };
 

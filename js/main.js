@@ -1,4 +1,4 @@
-import {} from './popup.js';
+import './popup.js';
 import './ads.js';
 
 import {
@@ -6,24 +6,21 @@ import {
   createPopups,
   TOKIO_COORDINATES
 } from './map.js';
+
 import {
-  form,
-  formElements,
   enableForm,
   disableForm,
   setFormSubmit
 } from './form.js';
 
 import {
-  filter,
-  filterElements,
   disableFilter,
   enableFilter
-} from './filter.js'
+} from './filter.js';
 
 import {
   showErrorMessage
-} from './util.js'
+} from './util.js';
 
 import {
   getData
@@ -35,7 +32,7 @@ disableForm();
 
 const LOAD_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
-getData (LOAD_DATA_URL,
+getData(LOAD_DATA_URL,
   (data) => {
     window.offers = data;
     createPopups(data);

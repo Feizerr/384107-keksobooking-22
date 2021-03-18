@@ -2,7 +2,6 @@ const templateSuccessPopup = document.querySelector('#success').content.querySel
 const templateErrorPopup = document.querySelector('#error').content.querySelector('.error');
 const page = document.querySelector('main');
 
-
 const onDocumentKeydown = (evt) => {
   if (evt.keyCode === 27) {
     const popup = document.querySelector('.alert-popup');
@@ -10,7 +9,7 @@ const onDocumentKeydown = (evt) => {
   }
 
   document.removeEventListener(onDocumentKeydown);
-}
+};
 
 const showPopup = (popupTemplate) => {
   page.append(popupTemplate.cloneNode(true));
@@ -24,8 +23,7 @@ const showPopup = (popupTemplate) => {
       popup.remove();
     });
   }
-}
-
+};
 
 export {
   showPopup,
