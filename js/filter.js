@@ -9,10 +9,15 @@ import {
 } from './util.js';
 
 const ANY_FILTER_VALUE = 'any';
-const LOW_PRICE = 10000;
-const HIGH_PRICE = 50000;
+const LOW_PRICE = 'low';
+const MIDDLE_PRICE = 'middle'
+const HIGH_PRICE = 'high';
 const RERENDER_DELAY = 500;
 
+const PRICE = {
+  'low': 10000,
+  'high': 50000,
+};
 
 const filter = document.querySelector('.map__filters');
 const filterElements = filter.querySelectorAll('select, fieldset');
@@ -27,15 +32,10 @@ let selectedQuantityRooms = housingRooms.value;
 let selectedQuantityGuests = housingGuests.value;
 let selectedQuantityPrice = housingPrice.value;
 
-
-//Блокировка фильтра
-
 const disableFilter = () => {
   filter.classList.add('map__filters--disabled');
   disableFormElements(filterElements);
 };
-
-//Разблокировка фильтра
 
 const enableFilter = () => {
   filter.classList.remove('map__filters--disabled');
@@ -43,17 +43,14 @@ const enableFilter = () => {
 };
 
 const filterByPrice = (ad, condition) => {
-  console.log(ad.offer.price);
-  console.log()
-
   return condition === ANY_FILTER_VALUE ||
-          condition === 'middle'&& ad.offer.price >= LOW_PRICE && ad.offer.price < HIGH_PRICE ||
-          condition === 'low' && ad.offer.price < LOW_PRICE ||
-          condition === 'high' && ad.offer.price >= HIGH_PRICE;
+          condition === MIDDLE_PRICE && ad.offer.price >= PRICE.low && ad.offer.price < PRICE.high ||
+          condition === LOW_PRICE && ad.offer.price < PRICE.low ||
+          condition === HIGH_PRICE && ad.offer.price >= PRICE.high;
 };
 
-//Фильтр
 const filterAds = () => {
+  const checkedFeaturesArray = [...housingFeatures.querySelectorAll('.map__features input:checked')].map((feature) => feature.value);
   const filteredArray =
     window.offers
       .filter(offer => {
@@ -61,117 +58,42 @@ const filterAds = () => {
         const roomsCondition = selectedQuantityRooms === ANY_FILTER_VALUE || offer.offer.rooms === Number(selectedQuantityRooms);
         const guestsCondition = selectedQuantityGuests === ANY_FILTER_VALUE || offer.offer.guests === Number(selectedQuantityGuests);
         const priceCondition = filterByPrice(offer, selectedQuantityPrice);
+        const featuresCondition = checkedFeaturesArray.every(feature => offer.offer.features.includes(feature));
 
-        return roomsCondition && houseCondition && guestsCondition && priceCondition;
+        return roomsCondition && houseCondition && guestsCondition && priceCondition && featuresCondition;
       });
   updateMarkers(filteredArray);
-}
+};
 
-
-housingType.addEventListener('change', (evt) => {
+housingType.addEventListener('change', (_.debounce((evt) => {
   selectedHouse = evt.target.value;
   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
-});
+}, RERENDER_DELAY)));
 
-housingRooms.addEventListener('change', (evt) => {
+housingRooms.addEventListener('change', (_.debounce((evt) => {
   selectedQuantityRooms = evt.target.value;
   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
-});
+}, RERENDER_DELAY)));
 
-housingGuests.addEventListener('change', (evt) => {
+housingGuests.addEventListener('change', (_.debounce((evt) => {
   selectedQuantityGuests = evt.target.value;
 
   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
-});
+}, RERENDER_DELAY)));
 
-housingPrice.addEventListener('change', (evt) => {
+
+housingFeatures.addEventListener('change', (_.debounce((evt) => {
+  filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice);
+}, RERENDER_DELAY)));
+
+housingPrice.addEventListener('change', (_.debounce((evt) => {
   selectedQuantityPrice = evt.target.value;
   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
-})
+}, RERENDER_DELAY)));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// housingType.addEventListener('change', (evt) => {
-//   const selectedHouse = evt.target.value;
-//   const selectedQuantityRooms = housingRooms.value;
-//   const selectedQuantityGuests = housingGuests.value;
-//   const selectedQuantityPrice = housingPrice.value;
-//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
-// });
-
-// housingRooms.addEventListener('change', (evt) => {
-//   const selectedQuantityRooms = evt.target.value;
-//   const selectedHouse = housingType.value;
-//   const selectedQuantityGuests = housingGuests.value;
-//   const selectedQuantityPrice = housingPrice.value;
-//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
-// });
-
-// housingGuests.addEventListener('change', (evt) => {
-//   const selectedQuantityGuests = evt.target.value;
-//   const selectedHouse = housingType.value;
-//   const selectedQuantityRooms = housingRooms.value;
-//   const selectedQuantityPrice = housingPrice.value;
-//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
-// });
-
-// housingPrice.addEventListener('change', (evt) => {
-//   const selectedQuantityPrice = evt.target.value;
-//   const selectedHouse = housingType.value;
-//   const selectedQuantityRooms = housingRooms.value;
-//   const selectedQuantityGuests = housingGuests.value;
-//   filterAds (selectedHouse, selectedQuantityRooms, selectedQuantityGuests, selectedQuantityPrice)
-// })
-
-//-----------------------------------------------------------------------------------------------
-//Фильтрация преимуществ
-
-housingFeatures.addEventListener('change', (evt) => {
-
-  const checkedFeaturesArray = [...housingFeatures.querySelectorAll('.map__features input:checked')].map((feature) => feature.value);
-  console.log(checkedFeaturesArray);
-  const createFilteredFeaturesArray = [];
-  window.offers.forEach((element) => {
-    console.log(element.offer.features);
-    if (element.offer.features.includes(checkedFeaturesArray)) {
-      createFilteredFeaturesArray.push(element);
-    };
-    return createFilteredFeaturesArray;
-  });
-  console.log(createFilteredFeaturesArray);
-
-});
-
-//----------------------------------------------------------------------------------------------
-
-
-//Очистка фильтра
 const filterReset = () => {
   filter.reset();
-}
+};
 
 export {
   filter,
