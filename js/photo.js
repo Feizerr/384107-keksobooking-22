@@ -1,11 +1,10 @@
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const avatarChooser = document.querySelector('#avatar');
 const avatarPreview = document.querySelector('.ad-form-header__user-pic');
 const photoOfHouseChooser = document.querySelector('#images');
 const wrapperForPhoto = document.querySelector('.ad-form__photo');
 const avatarSrc = 'img/muffin-grey.svg';
-
 
 const photoOfHousePreview = document.createElement('img');
 
@@ -14,7 +13,6 @@ const createPhoto = () => {
   wrapperForPhoto.appendChild(photoOfHousePreview);
   return photoOfHousePreview;
 }
-
 
 const addAvatar = (inputFile, preview) => {
   const file = inputFile.files[0];
@@ -32,7 +30,7 @@ const addAvatar = (inputFile, preview) => {
     });
 
     reader.readAsDataURL(file);
-  };
+  }
 };
 
 avatarChooser.addEventListener('change', () => {
@@ -48,10 +46,11 @@ photoOfHouseChooser.addEventListener('change', () => {
 
 const loadPreviousAvatar = () => {
   avatarPreview.src = avatarSrc;
-}
+};
+
 const resetPhoto = () => {
   photoOfHousePreview.remove();
-}
+};
 
 export {
   loadPreviousAvatar,
