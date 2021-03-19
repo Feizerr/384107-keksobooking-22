@@ -22,7 +22,8 @@ import {
 } from './filter.js';
 
 import {
-  loadPreviousAvatar
+  loadPreviousAvatar,
+  resetPhoto
 } from './photo.js';
 
 const MIN_PRICES = {
@@ -150,13 +151,15 @@ const formReset = () => {
   setMinPrices();
   resetMap();
   setRoomCapacity();
-  loadPreviousAvatar()
+  loadPreviousAvatar();
+  resetPhoto();
 };
 
 const onFormSubmitSuccess = () => {
   formReset();
   filterReset();
   loadPreviousAvatar();
+  resetPhoto();
 
   showPopup(templateSuccessPopup);
 };

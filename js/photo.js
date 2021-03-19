@@ -6,8 +6,10 @@ const photoOfHouseChooser = document.querySelector('#images');
 const wrapperForPhoto = document.querySelector('.ad-form__photo');
 const avatarSrc = 'img/muffin-grey.svg';
 
+
+const photoOfHousePreview = document.createElement('img');
+
 const createPhoto = () => {
-  const photoOfHousePreview = document.createElement('img');
   photoOfHousePreview.classList.add('ad-form__picture');
   wrapperForPhoto.appendChild(photoOfHousePreview);
   return photoOfHousePreview;
@@ -47,7 +49,11 @@ photoOfHouseChooser.addEventListener('change', () => {
 const loadPreviousAvatar = () => {
   avatarPreview.src = avatarSrc;
 }
+const resetPhoto = () => {
+  photoOfHousePreview.remove();
+}
 
 export {
-  loadPreviousAvatar
+  loadPreviousAvatar,
+  resetPhoto
 }
