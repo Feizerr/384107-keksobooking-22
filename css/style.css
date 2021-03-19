@@ -406,6 +406,12 @@ fieldset {
   margin-right: 14px;
 }
 
+.ad-form__picture {
+  width: 60px;
+  height: auto;
+  margin: 5px 5px;
+}
+
 .features legend {
   padding-bottom: 5px;
 }
