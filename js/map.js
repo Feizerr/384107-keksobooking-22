@@ -7,20 +7,16 @@ import {
   createAdPopup
 } from './ads.js';
 
-import {
-  filter
-} from './filter.js'
-
 const TOKIO_COORDINATES = {
   lat: 35.68950,
   lng: 139.69171,
   scale: 12,
-}
+};
 
 const TOKIO_COORDINATES_CENTER = {
   lat: 35.70843,
   lng: 139.76526,
-}
+};
 
 const MAX_COUNT_ADS = 10;
 const map = L.map('map-canvas');
@@ -58,8 +54,6 @@ const setCoordinateValue = () => {
 
 setCoordinateValue()
 
-const housingType = filter.querySelector('#housing-type');
-
 const icon = L.icon({
   iconUrl: 'img/pin.svg',
   iconSize: [50, 50],
@@ -84,20 +78,12 @@ const createPopups = (ads) => {
   });
 };
 
-housingType.addEventListener('change', (evt) => {
-  let filteredArray = [];
-
-  if (evt.target.value === 'any') {
-    filteredArray = window.offers
-  } else {
-    filteredArray = window.offers.filter(offer => offer.offer.type === evt.target.value)
-  }
+const updateMarkers = (offers) => {
   markersArray.forEach((marker) => {
     map.removeLayer(marker);
   })
-  return createPopups(filteredArray)
-
-});
+  createPopups(offers);
+};
 
 const resetMap = () => {
   map.panTo(new L.LatLng(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng));
@@ -112,5 +98,6 @@ export {
   mainMarker,
   TOKIO_COORDINATES_CENTER,
   setCoordinateValue,
-  resetMap
+  resetMap,
+  updateMarkers
 };

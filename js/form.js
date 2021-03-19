@@ -10,9 +10,17 @@ import {
   showPopup,
   templateErrorPopup,
   templateSuccessPopup
-} from './popup.js'
+} from './popup.js';
 
-const ADDRESS_FLOAT_LENGTH = 5;
+import {
+  disableFormElements,
+  enableFormElements
+} from './util.js';
+
+import {
+  filterReset
+} from './filter.js';
+
 const MIN_PRICES = {
   bungalow: 0,
   flat: 1000,
@@ -20,6 +28,8 @@ const MIN_PRICES = {
   palace: 10000,
 };
 
+const ADDRESS_FLOAT_LENGTH = 5;
+const PALACE_OPTION_VALUE = '0';
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_ROOMS_COUNT = 100;
@@ -66,12 +76,13 @@ const setRoomCapacity = () => {
   const roomsCount = Number(roomNumber.value);
   capacity.value = MIN_ROOMS_VALUE;
   capacities.forEach((element) => {
-    element.disabled = false;});
+    element.disabled = false;
+  });
 
   if (roomsCount === MAX_ROOMS_COUNT) {
     capacity.value = MAX_ROOMS_VALUE;
     capacities.forEach((element) => {
-      if (element !== 0) {
+      if (element.value !== PALACE_OPTION_VALUE) {
         element.disabled = true;
       }
     });
@@ -80,11 +91,11 @@ const setRoomCapacity = () => {
 
     capacities.forEach((element) => {
       if (element.value > roomNumber.value) {
-        element.disabled = true;
+        element.disabled = true
       }
     });
   }
-}
+};
 
 const onRoomNumberChange = () => {
   setRoomCapacity();
@@ -120,31 +131,27 @@ const setAddressValue = (lat, lng) => {
   inputAddress.value = lat.toFixed(ADDRESS_FLOAT_LENGTH) + ', ' + lng.toFixed(ADDRESS_FLOAT_LENGTH);
 };
 
-const disableFormElements = (block, elements) => {
-  block.classList.add('ad-form--disabled');
-
-  elements.forEach((element) => {
-    element.disabled = true;
-  });
+const disableForm = () => {
+  form.classList.add('ad-form--disabled');
+  disableFormElements(formElements);
 };
 
-const enableFormElements = (block, elements) => {
-  block.classList.remove('ad-form--disabled');
-
-  elements.forEach((element) => {
-    element.disabled = false;
-  });
+const enableForm = () => {
+  form.classList.remove('ad-form--disabled');
+  enableFormElements(formElements);
 };
 
 const formReset = () => {
   form.reset();
   setMinPrices();
-  resetMap()
+  resetMap();
   setRoomCapacity();
-}
+};
 
 const onFormSubmitSuccess = () => {
   formReset();
+  filterReset();
+
   showPopup(templateSuccessPopup);
 };
 
@@ -157,25 +164,26 @@ const setFormSubmit = () => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
 
-    sendData (formData, SEND_FORM_URL, onFormSubmitSuccess, onFormSubmitError);
+    sendData(formData, SEND_FORM_URL, onFormSubmitSuccess, onFormSubmitError);
   });
-}
+};
 
 buttonReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   formReset();
-})
+  filterReset();
+
+});
 
 setRoomCapacity();
 setMinPrices();
-disableFormElements(form, formElements);
 
 export {
   form,
   formElements,
   setAddressValue,
-  disableFormElements,
-  enableFormElements,
+  enableForm,
   setFormSubmit,
-  buttonSubmit
+  buttonSubmit,
+  disableForm
 }
