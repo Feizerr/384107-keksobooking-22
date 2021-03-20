@@ -21,6 +21,11 @@ import {
   filterReset
 } from './filter.js';
 
+import {
+  loadPreviousAvatar,
+  resetPhoto
+} from './photo.js';
+
 const MIN_PRICES = {
   bungalow: 0,
   flat: 1000,
@@ -146,11 +151,15 @@ const formReset = () => {
   setMinPrices();
   resetMap();
   setRoomCapacity();
+  loadPreviousAvatar();
+  resetPhoto();
 };
 
 const onFormSubmitSuccess = () => {
   formReset();
   filterReset();
+  loadPreviousAvatar();
+  resetPhoto();
 
   showPopup(templateSuccessPopup);
 };

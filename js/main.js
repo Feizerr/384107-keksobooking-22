@@ -1,4 +1,5 @@
 import './popup.js';
+import './photo.js';
 import './ads.js';
 
 import {
