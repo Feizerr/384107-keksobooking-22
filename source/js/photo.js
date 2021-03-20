@@ -4,7 +4,7 @@ const avatarChooser = document.querySelector('#avatar');
 const avatarPreview = document.querySelector('.ad-form-header__user-pic');
 const photoOfHouseChooser = document.querySelector('#images');
 const wrapperForPhoto = document.querySelector('.ad-form__photo');
-const avatarSrc = 'img/muffin-grey.svg';
+const AVATAR_SRC = 'img/muffin-grey.svg';
 
 const photoOfHousePreview = document.createElement('img');
 
@@ -45,7 +45,7 @@ photoOfHouseChooser.addEventListener('change', () => {
 });
 
 const loadPreviousAvatar = () => {
-  avatarPreview.src = avatarSrc;
+  avatarPreview.src = AVATAR_SRC;
 };
 
 const resetPhoto = () => {
