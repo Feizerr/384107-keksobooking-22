@@ -27,11 +27,10 @@ import {
   getData
 } from './api.js';
 
+const LOAD_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
 disableFilter();
 disableForm();
-
-const LOAD_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 
 getData(LOAD_DATA_URL,
   (data) => {
@@ -51,4 +50,4 @@ map.
     lng: TOKIO_COORDINATES.lng,
   }, TOKIO_COORDINATES.scale);
 
-setFormSubmit()
+setFormSubmit();

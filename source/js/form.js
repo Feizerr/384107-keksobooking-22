@@ -104,7 +104,7 @@ const setRoomCapacity = () => {
 
 const onRoomNumberChange = () => {
   setRoomCapacity();
-}
+};
 
 roomNumber.addEventListener('change', onRoomNumberChange);
 
@@ -124,11 +124,11 @@ const setMinPrices = () => {
   const minPrice = MIN_PRICES[housingType.value];
   housingPrice.setAttribute('min', minPrice);
   housingPrice.setAttribute('placeholder', minPrice);
-}
+};
 
 const onHousingTypeChange = () => {
   setMinPrices();
-}
+};
 
 housingType.addEventListener('change', onHousingTypeChange);
 
@@ -160,7 +160,6 @@ const onFormSubmitSuccess = () => {
   filterReset();
   loadPreviousAvatar();
   resetPhoto();
-
   showPopup(templateSuccessPopup);
 };
 
@@ -181,7 +180,6 @@ buttonReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   formReset();
   filterReset();
-
 });
 
 setRoomCapacity();

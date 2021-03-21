@@ -2,30 +2,30 @@ import {
   numWord
 } from './util.js';
 
-const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const mapCanvas = document.querySelector('#map-canvas');
-
-const GUEST_VARIATION = [
+const GUEST_VARIATIONS = [
   'гость',
   'гостя',
   'гостей',
 ];
 
-const ROOMS_VARIATION = [
+const ROOMS_VARIATIONS = [
   'комната',
   'комнаты',
   'комнат',
 ];
 
-const PHOTO_SIZE = {
+const PHOTO_SIZES = {
   width: 45,
   height: 45,
 };
 
-const AVATAR_SIZE = {
+const AVATAR_SIZES = {
   width: 70,
   height: 70,
 };
+
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+const mapCanvas = document.querySelector('#map-canvas');
 
 const createAdPopup = (data) => {
   const newCard = cardTemplate.cloneNode(true);
@@ -59,8 +59,8 @@ const createAdPopup = (data) => {
       photo.classList.add('popup__photo');
       photo.src = data.offer.photos[i];
       photo.alt = 'Фотография жилья';
-      photo.style.width = PHOTO_SIZE.width + 'px';
-      photo.style.height = PHOTO_SIZE.height + 'px';
+      photo.style.width = PHOTO_SIZES.width + 'px';
+      photo.style.height = PHOTO_SIZES.height + 'px';
       photos.appendChild(photo);
     });
 
@@ -92,7 +92,7 @@ const createAdPopup = (data) => {
   }
 
   if (data.offer.rooms && data.offer.guests) {
-    cardRoomsAndGuests.textContent = data.offer.rooms + ' ' + numWord(data.offer.rooms, ROOMS_VARIATION) + ' для ' + data.offer.guests + ' ' + numWord(data.offer.guests, GUEST_VARIATION);
+    cardRoomsAndGuests.textContent = data.offer.rooms + ' ' + numWord(data.offer.rooms, ROOMS_VARIATIONS) + ' для ' + data.offer.guests + ' ' + numWord(data.offer.guests, GUEST_VARIATIONS);
   } else {
     cardRoomsAndGuests.remove();
   }
@@ -120,14 +120,14 @@ const createAdPopup = (data) => {
   if (data.author.avatar) {
     cardAvatar.src = data.author.avatar;
     cardAvatar.alt = 'Аватар пользователя';
-    cardAvatar.style.width = AVATAR_SIZE.width + 'px';
-    cardAvatar.style.height = AVATAR_SIZE.height + 'px';
+    cardAvatar.style.width = AVATAR_SIZES.width + 'px';
+    cardAvatar.style.height = AVATAR_SIZES.height + 'px';
   } else {
     cardAvatar.remove();
   }
 
   return newCard;
-}
+};
 
 export {
   mapCanvas,

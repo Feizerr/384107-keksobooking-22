@@ -100,4 +100,4 @@ export {
   setCoordinateValue,
   resetMap,
   updateMarkers
-};
+}

@@ -1,10 +1,8 @@
 const sendData = (data, url, onSuccess, onError) => {
-  fetch (url,
-    {
-      method: 'POST',
-      body: data,
-    },
-  )
+  fetch(url, {
+    method: 'POST',
+    body: data,
+  })
     .then((response) => {
       if (response.ok) {
         onSuccess();
@@ -15,11 +13,10 @@ const sendData = (data, url, onSuccess, onError) => {
     .catch(() => onError());
 };
 
-
 const getData = (url, onSuccess, onError) => {
   fetch(url)
     .then((response) => {
-      if(response.ok) {
+      if (response.ok) {
         return response.json();
       } else {
         onError();
@@ -33,4 +30,7 @@ const getData = (url, onSuccess, onError) => {
     });
 };
 
-export {sendData, getData};
+export {
+  sendData,
+  getData
+};

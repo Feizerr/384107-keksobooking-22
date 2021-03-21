@@ -1,18 +1,22 @@
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const FILE_TYPES = [
+  'jpg',
+  'jpeg',
+  'png',
+];
+
+const AVATAR_SRC = 'img/muffin-grey.svg';
 
 const avatarChooser = document.querySelector('#avatar');
 const avatarPreview = document.querySelector('.ad-form-header__user-pic');
 const photoOfHouseChooser = document.querySelector('#images');
 const wrapperForPhoto = document.querySelector('.ad-form__photo');
-const AVATAR_SRC = 'img/muffin-grey.svg';
-
 const photoOfHousePreview = document.createElement('img');
 
 const createPhoto = () => {
   photoOfHousePreview.classList.add('ad-form__picture');
   wrapperForPhoto.appendChild(photoOfHousePreview);
   return photoOfHousePreview;
-}
+};
 
 const addAvatar = (inputFile, preview) => {
   const file = inputFile.files[0];
