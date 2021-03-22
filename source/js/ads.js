@@ -1,10 +1,10 @@
 import {
-  numWord
+  getNumWord
 } from './util.js';
 
 const GUEST_VARIATIONS = [
-  'гость',
   'гостя',
+  'гостей',
   'гостей',
 ];
 
@@ -13,6 +13,13 @@ const ROOMS_VARIATIONS = [
   'комнаты',
   'комнат',
 ];
+
+const HOUSE_TYPES = {
+  'home': 'Дом',
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+}
 
 const PHOTO_SIZES = {
   width: 45,
@@ -25,7 +32,7 @@ const AVATAR_SIZES = {
 };
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const mapCanvas = document.querySelector('#map-canvas');
+
 
 const createAdPopup = (data) => {
   const newCard = cardTemplate.cloneNode(true);
@@ -85,14 +92,24 @@ const createAdPopup = (data) => {
     cardPrice.remove();
   }
 
+
   if (data.offer.type) {
-    cardType.textContent = data.offer.type;
+    if (data.offer.type === 'house') {
+      cardType.textContent = HOUSE_TYPES.house;
+    } else if (data.offer.type === 'flat') {
+      cardType.textContent = HOUSE_TYPES.flat;
+    } else if (data.offer.type === 'palase') {
+      cardType.textContent = HOUSE_TYPES.palace;
+    } else {
+      cardType.textContent = HOUSE_TYPES.bungalow;
+    }
+
   } else {
     cardType.remove();
   }
 
   if (data.offer.rooms && data.offer.guests) {
-    cardRoomsAndGuests.textContent = data.offer.rooms + ' ' + numWord(data.offer.rooms, ROOMS_VARIATIONS) + ' для ' + data.offer.guests + ' ' + numWord(data.offer.guests, GUEST_VARIATIONS);
+    cardRoomsAndGuests.textContent = data.offer.rooms + ' ' + getNumWord(data.offer.rooms, ROOMS_VARIATIONS) + ' для ' + data.offer.guests + ' ' + getNumWord(data.offer.guests, GUEST_VARIATIONS);
   } else {
     cardRoomsAndGuests.remove();
   }
@@ -130,6 +147,5 @@ const createAdPopup = (data) => {
 };
 
 export {
-  mapCanvas,
   createAdPopup
 }

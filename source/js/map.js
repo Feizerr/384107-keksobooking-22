@@ -18,6 +18,11 @@ const TOKIO_COORDINATES_CENTER = {
   lng: 139.76526,
 };
 
+const PIN_SIZES = {
+  'height': 52,
+  'width': 26,
+}
+
 const MAX_COUNT_ADS = 10;
 const map = L.map('map-canvas');
 
@@ -29,8 +34,8 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [PIN_SIZES.height, PIN_SIZES.height],
+  iconAnchor: [PIN_SIZES.height.width, PIN_SIZES.height],
 });
 
 const mainMarker = L.marker({
@@ -46,7 +51,7 @@ mainMarker.addTo(map);
 setAddressValue(TOKIO_COORDINATES_CENTER.lat, TOKIO_COORDINATES_CENTER.lng);
 
 const setCoordinateValue = () => {
-  mainMarker.on('moveend', (evt) => {
+  mainMarker.on('move', (evt) => {
     const coordinates = evt.target.getLatLng();
     setAddressValue(coordinates.lat, coordinates.lng)
   });
@@ -56,15 +61,14 @@ setCoordinateValue()
 
 const icon = L.icon({
   iconUrl: 'img/pin.svg',
-  iconSize: [50, 50],
-  iconAnchor: [25, 25],
+  iconSize: [PIN_SIZES.height, PIN_SIZES.height],
+  iconAnchor: [PIN_SIZES.height.width, PIN_SIZES.height],
 });
 
 const markersArray = [];
 const createPopups = (ads) => {
-  const slicedAds = ads.slice(0, MAX_COUNT_ADS);
 
-  slicedAds.forEach((element) => {
+  ads.forEach((element) => {
     const marker = L.marker({
       lat: element.location.lat,
       lng: element.location.lng,
