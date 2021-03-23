@@ -122,8 +122,8 @@ timeOut.addEventListener('change', onTimeOutChange);
 
 const setMinPrices = () => {
   const minPrice = MIN_PRICES[housingType.value];
-  housingPrice.setAttribute('min', minPrice);
-  housingPrice.setAttribute('placeholder', minPrice);
+  housingPrice.min = minPrice;
+  housingPrice.placeholder = minPrice;
 };
 
 const onHousingTypeChange = () => {

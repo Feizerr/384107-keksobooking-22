@@ -21,6 +21,8 @@ const HOUSE_TYPES = {
   'bungalow': 'Бунгало',
 }
 
+console.log(Object.keys(HOUSE_TYPES)[0])
+
 const PHOTO_SIZES = {
   width: 45,
   height: 45,
@@ -31,7 +33,20 @@ const AVATAR_SIZES = {
   height: 70,
 };
 
+const HOUSE = 'house';
+const FLAT = 'flat';
+const PALACE = 'palace';
+
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+
+//Попробовала убрать повторы. Если вызвать функцию. у всех поп-апов появится одинаковый заголовок(или его отсутствие)
+const createPopupElement = (data, key, card) => {
+  if(data.offer.key) {
+    card.textContent = data.offer.key;
+  } else {
+    card.remove();
+  }
+}
 
 
 const createAdPopup = (data) => {
@@ -93,12 +108,14 @@ const createAdPopup = (data) => {
   }
 
 
+
+
   if (data.offer.type) {
-    if (data.offer.type === 'house') {
+    if (data.offer.type === HOUSE) {
       cardType.textContent = HOUSE_TYPES.house;
-    } else if (data.offer.type === 'flat') {
+    } else if (data.offer.type === FLAT) {
       cardType.textContent = HOUSE_TYPES.flat;
-    } else if (data.offer.type === 'palase') {
+    } else if (data.offer.type === PALACE) {
       cardType.textContent = HOUSE_TYPES.palace;
     } else {
       cardType.textContent = HOUSE_TYPES.bungalow;
@@ -145,6 +162,8 @@ const createAdPopup = (data) => {
 
   return newCard;
 };
+
+
 
 export {
   createAdPopup
