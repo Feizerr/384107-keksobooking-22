@@ -32,6 +32,15 @@ const LOAD_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 disableFilter();
 disableForm();
 
+map.
+  on('load', () => {
+    enableForm();
+  })
+  .setView({
+    lat: TOKIO_COORDINATES.lat,
+    lng: TOKIO_COORDINATES.lng,
+  }, TOKIO_COORDINATES.scale);
+
 getData(LOAD_DATA_URL,
   (data) => {
     window.offers = data;
@@ -39,15 +48,5 @@ getData(LOAD_DATA_URL,
   },
   () => showErrorMessage('Не удалось загрузить данные. Обновите страницу'),
 );
-
-map.
-  on('load', () => {
-    enableForm();
-    enableFilter();
-  })
-  .setView({
-    lat: TOKIO_COORDINATES.lat,
-    lng: TOKIO_COORDINATES.lng,
-  }, TOKIO_COORDINATES.scale);
 
 setFormSubmit();

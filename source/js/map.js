@@ -7,6 +7,11 @@ import {
   createAdPopup
 } from './ads.js';
 
+import {
+    enableFilter
+  }
+   from './filter.js'
+
 const TOKIO_COORDINATES = {
   lat: 35.68950,
   lng: 139.69171,
@@ -23,7 +28,6 @@ const PIN_SIZES = {
   'width': 26,
 }
 
-const MAX_COUNT_ADS = 10;
 const map = L.map('map-canvas');
 
 L.tileLayer(
@@ -80,6 +84,7 @@ const createPopups = (ads) => {
       .bindPopup(createAdPopup(element));
     markersArray.push(marker);
   });
+    enableFilter();
 };
 
 const updateMarkers = (offers) => {
