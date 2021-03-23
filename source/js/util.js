@@ -1,3 +1,12 @@
+const MESSAGE_PARAMETERS = {
+  'color': 'red',
+  'index': 100,
+  'position': 'absolute',
+  'positionInPx': 0,
+  'paddings': '10px 5px',
+  'fontSize': '30px',
+  'textAlign': 'center',
+}
 const ALERT_SHOW_TIME = 6000;
 
 const getNumWord = (value, words) => {
@@ -16,15 +25,15 @@ const getNumWord = (value, words) => {
 
 const showErrorMessage = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 5px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
+  alertContainer.style.zIndex = MESSAGE_PARAMETERS.index;
+  alertContainer.style.position = MESSAGE_PARAMETERS.position;
+  alertContainer.style.left = MESSAGE_PARAMETERS.positionInPx;
+  alertContainer.style.top = MESSAGE_PARAMETERS.positionInPx;
+  alertContainer.style.right = MESSAGE_PARAMETERS.positionInPx;
+  alertContainer.style.padding = MESSAGE_PARAMETERS.paddings;
+  alertContainer.style.fontSize = MESSAGE_PARAMETERS.fontSize;
+  alertContainer.style.textAlign = MESSAGE_PARAMETERS.textAlign;
+  alertContainer.style.backgroundColor = MESSAGE_PARAMETERS.color;
   alertContainer.textContent = message;
 
   document.body.append(alertContainer);

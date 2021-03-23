@@ -15,13 +15,11 @@ const ROOMS_VARIATIONS = [
 ];
 
 const HOUSE_TYPES = {
-  'home': 'Дом',
+  'house': 'Дом',
   'palace': 'Дворец',
   'flat': 'Квартира',
   'bungalow': 'Бунгало',
-}
-
-console.log(Object.keys(HOUSE_TYPES)[0])
+};
 
 const PHOTO_SIZES = {
   width: 45,
@@ -36,18 +34,10 @@ const AVATAR_SIZES = {
 const HOUSE = 'house';
 const FLAT = 'flat';
 const PALACE = 'palace';
+const PHOTO_ALT = 'Фотография жилья';
+const CARD_AVATAR_ALT = 'Аватар пользователя';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-//Попробовала убрать повторы. Если вызвать функцию. у всех поп-апов появится одинаковый заголовок(или его отсутствие)
-const createPopupElement = (data, key, card) => {
-  if(data.offer.key) {
-    card.textContent = data.offer.key;
-  } else {
-    card.remove();
-  }
-}
-
 
 const createAdPopup = (data) => {
   const newCard = cardTemplate.cloneNode(true);
@@ -80,7 +70,7 @@ const createAdPopup = (data) => {
       let photo = document.createElement('img');
       photo.classList.add('popup__photo');
       photo.src = data.offer.photos[i];
-      photo.alt = 'Фотография жилья';
+      photo.alt = PHOTO_ALT;
       photo.style.width = PHOTO_SIZES.width + 'px';
       photo.style.height = PHOTO_SIZES.height + 'px';
       photos.appendChild(photo);
@@ -106,9 +96,6 @@ const createAdPopup = (data) => {
   } else {
     cardPrice.remove();
   }
-
-
-
 
   if (data.offer.type) {
     if (data.offer.type === HOUSE) {
@@ -153,7 +140,7 @@ const createAdPopup = (data) => {
 
   if (data.author.avatar) {
     cardAvatar.src = data.author.avatar;
-    cardAvatar.alt = 'Аватар пользователя';
+    cardAvatar.alt = CARD_AVATAR_ALT;
     cardAvatar.style.width = AVATAR_SIZES.width + 'px';
     cardAvatar.style.height = AVATAR_SIZES.height + 'px';
   } else {
@@ -162,8 +149,6 @@ const createAdPopup = (data) => {
 
   return newCard;
 };
-
-
 
 export {
   createAdPopup

@@ -28,6 +28,7 @@ import {
 } from './api.js';
 
 const LOAD_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
+const ERROR_MESSAGE_TEXT = 'Не удалось загрузить данные. Обновите страницу';
 
 disableFilter();
 disableForm();
@@ -46,7 +47,7 @@ getData(LOAD_DATA_URL,
     window.offers = data;
     createPopups(data);
   },
-  () => showErrorMessage('Не удалось загрузить данные. Обновите страницу'),
+  () => showErrorMessage(ERROR_MESSAGE_TEXT),
 );
 
 setFormSubmit();
