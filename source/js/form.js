@@ -42,6 +42,7 @@ const MAX_ROOMS_VALUE = 0;
 const MIN_ROOMS_VALUE = 1;
 const NOT_FOR_GUESTS_CAPACITY = 3;
 const SEND_FORM_URL = 'https://22.javascript.pages.academy/keksobooking';
+const MAX_PRICE_MESSAGE = 'Максимальная стоимость жилья — 1 000 000 руб.';
 
 const form = document.querySelector('.ad-form');
 const formElements = form.querySelectorAll('fieldset');
@@ -71,7 +72,7 @@ formTitle.addEventListener('input', () => {
 
 housingPrice.addEventListener('input', () => {
   if (housingPrice.validity.rangeOverflow) {
-    housingPrice.setCustomValidity('Максимальная стоимость жилья — 1 000 000 руб.');
+    housingPrice.setCustomValidity(MAX_PRICE_MESSAGE);
   } else {
     housingPrice.setCustomValidity('');
   }
@@ -110,11 +111,11 @@ roomNumber.addEventListener('change', onRoomNumberChange);
 
 const onTimeInChange = () => {
   timeOut.value = timeIn.value;
-}
+};
 
 const onTimeOutChange = () => {
   timeIn.value = timeOut.value;
-}
+};
 
 timeIn.addEventListener('change', onTimeInChange);
 

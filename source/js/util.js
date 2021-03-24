@@ -6,7 +6,8 @@ const MESSAGE_PARAMETERS = {
   'paddings': '10px 5px',
   'fontSize': '30px',
   'textAlign': 'center',
-}
+};
+
 const ALERT_SHOW_TIME = 6000;
 
 const getNumWord = (value, words) => {

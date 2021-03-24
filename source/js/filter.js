@@ -51,15 +51,14 @@ const filterByPrice = (ad, condition) => {
 };
 
 const createFilteredArray = (offersArray, array, cb) => {
-
-    for (let i = 0; i < offersArray.length; i++) {
-      if (array.length === MAX_COUNT_ADS) {
-        break
-      } else if (cb(offersArray[i])) {
-        array.push(offersArray[i])
-      }
+  for (let i = 0; i < offersArray.length; i++) {
+    if (array.length === MAX_COUNT_ADS) {
+      break
+    } else if (cb(offersArray[i])) {
+      array.push(offersArray[i])
     }
   }
+};
 
 const filterAds = () => {
   const checkedFeaturesArray = [...housingFeatures.querySelectorAll('.map__features input:checked')];
@@ -73,12 +72,11 @@ const filterAds = () => {
     const featuresCondition = checkedFeaturesArray.every(feature => object.offer.features.includes(feature.value));
 
     return roomsCondition && houseCondition && guestsCondition && priceCondition && featuresCondition;
-  }
+  };
 
   createFilteredArray(window.offers, filteredArray, filterObject);
   updateMarkers(filteredArray);
 };
-
 
 housingType.addEventListener('change', (_.debounce((evt) => {
   selectedHouse = evt.target.value;

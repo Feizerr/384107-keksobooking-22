@@ -8,9 +8,8 @@ import {
 } from './ads.js';
 
 import {
-    enableFilter
-  }
-   from './filter.js'
+  enableFilter
+} from './filter.js'
 
 const TOKIO_COORDINATES = {
   lat: 35.68950,
@@ -26,7 +25,7 @@ const TOKIO_COORDINATES_CENTER = {
 const PIN_SIZES = {
   'height': 52,
   'width': 26,
-}
+};
 
 const map = L.map('map-canvas');
 
@@ -61,7 +60,7 @@ const setCoordinateValue = () => {
   });
 };
 
-setCoordinateValue()
+setCoordinateValue();
 
 const icon = L.icon({
   iconUrl: 'img/pin.svg',
@@ -84,7 +83,7 @@ const createPopups = (ads) => {
       .bindPopup(createAdPopup(element));
     markersArray.push(marker);
   });
-    enableFilter();
+  enableFilter();
 };
 
 const updateMarkers = (offers) => {

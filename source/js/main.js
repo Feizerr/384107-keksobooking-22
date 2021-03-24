@@ -15,8 +15,7 @@ import {
 } from './form.js';
 
 import {
-  disableFilter,
-  enableFilter
+  disableFilter
 } from './filter.js';
 
 import {

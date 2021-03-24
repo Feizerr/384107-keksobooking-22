@@ -76,7 +76,7 @@ const createAdPopup = (data) => {
       photos.appendChild(photo);
     });
 
-    return photos
+    return photos;
   };
 
   if (data.offer.title) {
