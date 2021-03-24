@@ -28,11 +28,6 @@ const housingRooms = filter.querySelector('#housing-rooms');
 const housingGuests = filter.querySelector('#housing-guests');
 const housingFeatures = filter.querySelector('#housing-features');
 
-let selectedHouse = housingType.value;
-let selectedQuantityRooms = housingRooms.value;
-let selectedQuantityGuests = housingGuests.value;
-let selectedQuantityPrice = housingPrice.value;
-
 const disableFilter = () => {
   filter.classList.add('map__filters--disabled');
   disableFormElements(filterElements);
@@ -50,55 +45,36 @@ const filterByPrice = (ad, condition) => {
     condition === HIGH_PRICE && ad.offer.price >= PRICE.high;
 };
 
-const createFilteredArray = (offersArray, array, cb) => {
-  for (let i = 0; i < offersArray.length; i++) {
-    if (array.length === MAX_COUNT_ADS) {
-      break
-    } else if (cb(offersArray[i])) {
-      array.push(offersArray[i])
-    }
-  }
+const filterObject = (object) => {
+  let selectedHouse = housingType.value;
+  let selectedQuantityRooms = housingRooms.value;
+  let selectedQuantityGuests = housingGuests.value;
+  let selectedQuantityPrice = housingPrice.value;
+
+  const checkedFeaturesArray = [...housingFeatures.querySelectorAll('.map__features input:checked')];
+  const houseCondition = selectedHouse === ANY_FILTER_VALUE || object.offer.type === selectedHouse;
+  const roomsCondition = selectedQuantityRooms === ANY_FILTER_VALUE || object.offer.rooms === Number(selectedQuantityRooms);
+  const guestsCondition = selectedQuantityGuests === ANY_FILTER_VALUE || object.offer.guests === Number(selectedQuantityGuests);
+  const priceCondition = filterByPrice(object, selectedQuantityPrice);
+  const featuresCondition = checkedFeaturesArray.every(feature => object.offer.features.includes(feature.value));
+
+  return roomsCondition && houseCondition && guestsCondition && priceCondition && featuresCondition;
 };
 
 const filterAds = () => {
-  const checkedFeaturesArray = [...housingFeatures.querySelectorAll('.map__features input:checked')];
   const filteredArray = [];
 
-  const filterObject = (object) => {
-    const houseCondition = selectedHouse === ANY_FILTER_VALUE || object.offer.type === selectedHouse;
-    const roomsCondition = selectedQuantityRooms === ANY_FILTER_VALUE || object.offer.rooms === Number(selectedQuantityRooms);
-    const guestsCondition = selectedQuantityGuests === ANY_FILTER_VALUE || object.offer.guests === Number(selectedQuantityGuests);
-    const priceCondition = filterByPrice(object, selectedQuantityPrice);
-    const featuresCondition = checkedFeaturesArray.every(feature => object.offer.features.includes(feature.value));
-
-    return roomsCondition && houseCondition && guestsCondition && priceCondition && featuresCondition;
-  };
-
-  createFilteredArray(window.offers, filteredArray, filterObject);
+  for (let i = 0; i < window.offers.length; i++) {
+    if (filteredArray.length === MAX_COUNT_ADS) {
+      break
+    } else if (filterObject(window.offers[i])) {
+      filteredArray.push(window.offers[i])
+    }
+  }
   updateMarkers(filteredArray);
 };
 
-housingType.addEventListener('change', (_.debounce((evt) => {
-  selectedHouse = evt.target.value;
-  filterAds();
-}, RERENDER_DELAY)));
-
-housingRooms.addEventListener('change', (_.debounce((evt) => {
-  selectedQuantityRooms = evt.target.value;
-  filterAds();
-}, RERENDER_DELAY)));
-
-housingGuests.addEventListener('change', (_.debounce((evt) => {
-  selectedQuantityGuests = evt.target.value;
-  filterAds();
-}, RERENDER_DELAY)));
-
-housingFeatures.addEventListener('change', (_.debounce(() => {
-  filterAds();
-}, RERENDER_DELAY)));
-
-housingPrice.addEventListener('change', (_.debounce((evt) => {
-  selectedQuantityPrice = evt.target.value;
+filter.addEventListener('change', (_.debounce(() => {
   filterAds();
 }, RERENDER_DELAY)));
 

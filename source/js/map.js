@@ -9,7 +9,7 @@ import {
 
 import {
   enableFilter
-} from './filter.js'
+} from './filter.js';
 
 const TOKIO_COORDINATES = {
   lat: 35.68950,

@@ -31,13 +31,18 @@ const AVATAR_SIZES = {
   height: 70,
 };
 
-const HOUSE = 'house';
-const FLAT = 'flat';
-const PALACE = 'palace';
 const PHOTO_ALT = 'Фотография жилья';
 const CARD_AVATAR_ALT = 'Аватар пользователя';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+
+const createPopupDescription = (key, card) => {
+  if (key) {
+    card.textContent = key;
+  } else {
+    card.remove();
+  }
+};
 
 const createAdPopup = (data) => {
   const newCard = cardTemplate.cloneNode(true);
@@ -60,7 +65,7 @@ const createAdPopup = (data) => {
       featureElements.appendChild(featureElement);
     })
     return featureElements;
-  }
+  };
 
   const createPhotos = (data) => {
     const photos = newCard.querySelector('.popup__photos');
@@ -79,37 +84,21 @@ const createAdPopup = (data) => {
     return photos;
   };
 
-  if (data.offer.title) {
-    cardTitle.textContent = data.offer.title;
-  } else {
-    cardTitle.remove();
-  }
+  createPopupDescription(data.offer.address, cardAddress);
+  createPopupDescription(data.offer.description, cardDescription);
+  createPopupDescription(data.offer.title, cardTitle);
 
-  if (data.offer.address) {
-    cardAddress.textContent = data.offer.address;
+
+  if (data.offer.type) {
+    cardType.textContent = HOUSE_TYPES[data.offer.type];
   } else {
-    cardAddress.remove();
+    cardType.remove();
   }
 
   if (data.offer.price) {
     cardPrice.textContent = data.offer.price + ' ₽/ночь';
   } else {
     cardPrice.remove();
-  }
-
-  if (data.offer.type) {
-    if (data.offer.type === HOUSE) {
-      cardType.textContent = HOUSE_TYPES.house;
-    } else if (data.offer.type === FLAT) {
-      cardType.textContent = HOUSE_TYPES.flat;
-    } else if (data.offer.type === PALACE) {
-      cardType.textContent = HOUSE_TYPES.palace;
-    } else {
-      cardType.textContent = HOUSE_TYPES.bungalow;
-    }
-
-  } else {
-    cardType.remove();
   }
 
   if (data.offer.rooms && data.offer.guests) {
@@ -126,12 +115,6 @@ const createAdPopup = (data) => {
 
   if (data.offer.features) {
     createFeaturesElements(data);
-  }
-
-  if (data.offer.description) {
-    cardDescription.textContent = data.offer.description;
-  } else {
-    cardDescription.remove();
   }
 
   if (data.offer.photos) {
