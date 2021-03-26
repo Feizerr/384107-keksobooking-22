@@ -44,6 +44,29 @@ const createPopupDescription = (key, card) => {
   }
 };
 
+const createFeatures = (keys, card) => {
+  keys.forEach((value, index) => {
+    let featureElement = document.createElement('li');
+    featureElement.classList.add('popup__feature', 'popup__feature--' + keys[index]);
+    card.appendChild(featureElement);
+  })
+  return card;
+};
+
+const createPhotosCard = (keys, card) => {
+  keys.forEach((value, i) => {
+    let photo = document.createElement('img');
+    photo.classList.add('popup__photo');
+    photo.src = keys[i];
+    photo.alt = PHOTO_ALT;
+    photo.style.width = PHOTO_SIZES.width + 'px';
+    photo.style.height = PHOTO_SIZES.height + 'px';
+    card.appendChild(photo);
+  });
+
+  return card;
+};
+
 const createAdPopup = (data) => {
   const newCard = cardTemplate.cloneNode(true);
   const cardTitle = newCard.querySelector('.popup__title');
@@ -59,35 +82,15 @@ const createAdPopup = (data) => {
     const featureElements = newCard.querySelector('.popup__features');
     featureElements.textContent = '';
 
-    data.offer.features.forEach((value, index) => {
-      let featureElement = document.createElement('li');
-      featureElement.classList.add('popup__feature', 'popup__feature--' + data.offer.features[index]);
-      featureElements.appendChild(featureElement);
-    })
-    return featureElements;
+    createFeatures(data.offer.features, featureElements)
   };
 
   const createPhotos = (data) => {
     const photos = newCard.querySelector('.popup__photos');
     photos.textContent = '';
 
-    data.offer.photos.forEach((value, i) => {
-      let photo = document.createElement('img');
-      photo.classList.add('popup__photo');
-      photo.src = data.offer.photos[i];
-      photo.alt = PHOTO_ALT;
-      photo.style.width = PHOTO_SIZES.width + 'px';
-      photo.style.height = PHOTO_SIZES.height + 'px';
-      photos.appendChild(photo);
-    });
-
-    return photos;
+    createPhotosCard(data.offer.photos, photos)
   };
-
-  createPopupDescription(data.offer.address, cardAddress);
-  createPopupDescription(data.offer.description, cardDescription);
-  createPopupDescription(data.offer.title, cardTitle);
-
 
   if (data.offer.type) {
     cardType.textContent = HOUSE_TYPES[data.offer.type];
@@ -129,6 +132,10 @@ const createAdPopup = (data) => {
   } else {
     cardAvatar.remove();
   }
+
+  createPopupDescription(data.offer.address, cardAddress);
+  createPopupDescription(data.offer.description, cardDescription);
+  createPopupDescription(data.offer.title, cardTitle);
 
   return newCard;
 };
